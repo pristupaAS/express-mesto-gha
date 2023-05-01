@@ -1,5 +1,5 @@
 const Card = require('../models/card');
-const { processingError } = require('../utils/errors/errors');
+const { processingError, check } = require('../utils/errors/errors');
 
 module.exports.createCard = (req, res) => {
   const { _id } = req.user;
@@ -18,7 +18,7 @@ module.exports.findCard = (req, res) => {
 
 module.exports.deleteCardId = (req, res) => {
   Card.findByIdAndRemove(req.params.cardId)
-    .then((card) => res.send(card))
+    .then((card) => check(card, res))
     .catch((err) => processingError(err, res));
 };
 
@@ -27,12 +27,12 @@ module.exports.likeCard = (req, res) => Card.findByIdAndUpdate(
   { $addToSet: { likes: req.user._id } },
   { new: true },
 )
-  .then((card) => res.send(card))
+  .then((card) => check(card, res))
   .catch((err) => processingError(err, res));
 
 module.exports.dislikeCard = (req, res) => Card.findByIdAndUpdate(
   req.params.cardId,
   { $pull: { likes: req.user._id } },
 )
-  .then((card) => res.send(card))
+  .then((card) => check(card, res))
   .catch((err) => processingError(err, res));

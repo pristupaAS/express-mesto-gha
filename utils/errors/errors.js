@@ -1,7 +1,17 @@
 const ERROR_BAD_REQUEST = 400;
 const ERROR_NOT_FOUND = 404;
 const ERROR_DEFAULT = 500;
+const OK = 200;
 const mongoose = require('mongoose');
+
+const check = (req, res) => {
+  if (!req) {
+    return res.status(ERROR_NOT_FOUND).send({
+      message: 'По указанному _id нет данных',
+    });
+  }
+  return res.status(OK).send(req);
+};
 
 const processingError = (err, res) => {
   if (err instanceof mongoose.Error.ValidationError) {
@@ -26,4 +36,5 @@ const processingError = (err, res) => {
 
 module.exports = {
   processingError,
+  check,
 };

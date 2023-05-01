@@ -1,5 +1,5 @@
 const User = require('../models/user');
-const { processingError } = require('../utils/errors/errors');
+const { processingError, check } = require('../utils/errors/errors');
 
 module.exports.createUser = (req, res) => {
   const { name, about, avatar } = req.body;
@@ -17,13 +17,13 @@ module.exports.findUser = (req, res) => {
 
 module.exports.findUserId = (req, res) => {
   User.findById(req.params.userId)
-    .then((user) => res.send(user))
+    .then((user) => check(user, res))
     .catch((err) => processingError(err, res));
 };
 
 module.exports.updateUserProfile = (req, res) => {
   const { name, about } = req.body;
-  User.findByIdAndUpdate(req.user._id, { name, about }, { new: true })
+  User.findByIdAndUpdate(req.user._id, { name, about }, { new: true, runValidators: true })
     .then((user) => res.send({ data: user }))
     .catch((err) => processingError(err, res));
 };
