@@ -6,7 +6,6 @@ module.exports.createCard = (req, res) => {
   const { name, link } = req.body;
 
   Card.create({ name, link, owner: _id })
-
     .then((card) => res.send(card))
     .catch((err) => processingError(err, res));
 };
@@ -30,7 +29,6 @@ module.exports.likeCard = (req, res) => Card.findByIdAndUpdate(
   { $addToSet: { likes: req.user._id } },
   { new: true },
 )
-  .orFail()
   .then((card) => check(card, res))
   .catch((err) => processingError(err, res));
 
@@ -38,6 +36,5 @@ module.exports.dislikeCard = (req, res) => Card.findByIdAndUpdate(
   req.params.cardId,
   { $pull: { likes: req.user._id } },
 )
-  .orFail()
   .then((card) => check(card, res))
   .catch((err) => processingError(err, res));
