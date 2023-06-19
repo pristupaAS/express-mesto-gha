@@ -18,12 +18,7 @@ const check = (req, res) => {
 };
 
 const processingError = (err, res) => {
-  if (err instanceof mongoose.Error.ValidationError) {
-    return res.status(ERROR_BAD_REQUEST).send({
-      message: 'Переданы неверные данные',
-    });
-  }
-  if (err instanceof mongoose.Error.CastError) {
+  if (err instanceof mongoose.Error.ValidationError || mongoose.Error.CastError) {
     return res.status(ERROR_BAD_REQUEST).send({
       message: 'Переданы неверные данные',
     });

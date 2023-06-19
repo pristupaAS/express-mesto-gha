@@ -1,7 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const router = require('express').Router();
 
 const app = express();
 
@@ -19,7 +18,7 @@ app.use((req, res, next) => {
 app.use('/users', require('./routes/users'));
 app.use('/cards', require('./routes/cards'));
 
-app.use('/', router.all('*', (req, res) => res.status(404).send({
+app.use('/', (req, res) => res.status(404).send({
   message: 'Неверный путь',
-})));
+}));
 app.listen(3000);
