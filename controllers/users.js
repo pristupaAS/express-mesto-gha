@@ -24,7 +24,6 @@ module.exports.findUserId = (req, res) => {
 module.exports.updateUserProfile = (req, res) => {
   const { name, about } = req.body;
   User.findByIdAndUpdate(req.user._id, { name, about }, { new: true, runValidators: true })
-    .orFail()
     .then((user) => res.send({ data: user }))
     .catch((err) => processingError(err, res));
 };
