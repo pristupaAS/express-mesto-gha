@@ -19,7 +19,7 @@ module.exports.findCards = (req, res) => {
 
 module.exports.deleteCardId = (req, res) => {
   Card.findByIdAndRemove(req.params.cardId)
-    .orFail()
+
     .then((card) => check(card, res))
     .catch((err) => processingError(err, res));
 };

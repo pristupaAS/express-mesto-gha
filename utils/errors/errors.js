@@ -11,7 +11,7 @@ const notURL = (req, res) => res.status(ERROR_NOT_FOUND).send({
 const check = (req, res) => {
   if (!req) {
     return res.status(ERROR_NOT_FOUND).send({
-      message: 'По указанному _id нет данных',
+      message: 'По указанному _id нет',
     });
   }
   return res.status(OK).send(req);
