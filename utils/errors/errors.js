@@ -23,6 +23,11 @@ const processingError = (err, res) => {
       message: 'Переданы неверные данные',
     });
   }
+  if (err instanceof mongoose.Error.DocumentNotFoundError) {
+    return res.status(ERROR_NOT_FOUND).send({
+      message: 'По указанному _id нет данных',
+    });
+  }
   return res.status(ERROR_DEFAULT).send({
     message: 'Ошибка по умолчанию',
   });

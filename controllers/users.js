@@ -17,6 +17,7 @@ module.exports.findUsers = (req, res) => {
 
 module.exports.findUserId = (req, res) => {
   User.findById(req.params.userId)
+    .orFail()
     .then((user) => check(user, res))
     .catch((err) => processingError(err, res));
 };
@@ -24,6 +25,7 @@ module.exports.findUserId = (req, res) => {
 module.exports.updateUserProfile = (req, res) => {
   const { name, about } = req.body;
   User.findByIdAndUpdate(req.user._id, { name, about }, { new: true, runValidators: true })
+    .orFail()
     .then((user) => res.send({ data: user }))
     .catch((err) => processingError(err, res));
 };
@@ -31,6 +33,7 @@ module.exports.updateUserProfile = (req, res) => {
 module.exports.updateUserAvatar = (req, res) => {
   const { avatar } = req.body;
   User.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true })
+    .orFail()
     .then((user) => res.send({ data: user }))
     .catch((err) => processingError(err, res));
 };
